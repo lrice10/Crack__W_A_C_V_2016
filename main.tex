@@ -1,0 +1,60 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{styles/wacv}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\usepackage{epstopdf}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{color}
+\usepackage{tabulary}
+\usepackage{caption} 
+\usepackage[pagebackref=true,breaklinks=true,colorlinks,bookmarks=false]{hyperref}
+
+\newcommand\comment[1]{\textcolor{red}{{\tt #1}}}
+\newcommand\vect[1]{\boldsymbol{#1}}
+\newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
+
+\wacvfinalcopy % *** Uncomment this line for the final submission
+
+\def\wacvPaperID{121} % *** Enter the wacv Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+\ifwacvfinal\pagestyle{empty}\fi
+
+\begin{document}
+\title{WACV 16 - Crack Detection Paper}
+
+\author{
+Authors$^\ast$
+\begin{tabular}{c c}
+$^\ast$~Univ. of North Carolina at Charlotte \\
+Charlotte, NC 28223\\
+\end{tabular}\\
+{\tt \small author@uncc.edu  } }
+\maketitle
+
+\begin{abstract}
+[Abstract here]
+\end{abstract}
+
+\input{section/Introduction}
+\input{section/Method}
+\input{section/Results}
+\input{section/Discussion}
+
+\bibliographystyle{styles/ieee}
+\bibliography{references}
+
+\end{document}
+
+\documentclass{article}

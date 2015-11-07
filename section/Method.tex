@@ -1,0 +1,21 @@
+\section{Overview}
+
+A GoogLeNet CNN is finetuned trained to distinguish between crack and non-crack patches
+For each frame in video, the frame is  divided into 70 overlapping blocks. Each patch is ran through the CNN classifier. For frame based detection, If any patch is classified as crack, the frame is classified as having crack in it.
+All the blocks that are classified as crack in a single video are put into 3D space. RANSAC plane fitting finds potential crack frame interval groups.
+Each plane is classified as crack or not by using a simple threshold method. 
+
+
+\subsection{CNN training}
+           A GoogLeNet is finetuned trained to determine if an 224x224 image patch has a crack inside it or not. Approximately 1.5 million 224x224 image patches are extracted from 16 videos for each training set. Crack patches are selected from manually pixel labeled ground truthed crack frames with a crack pixel in the center of the patch. Additional crack patch samples are added by rotating the initial crops by 90 degrees.  Negative non-crack patches are taken from frames that do not have crack. Pixels with greater morph response in the non-crack frames are given higher probability of being selected as a training patch. An equal ratio of positive and negative samples is used. The mean RGB color of ImageNet is subtracted from each patch.
+           In training, the CNN weights are initialized from the GoogLeNet that is available at the Caffe model zoo. The final inner product layer is the layer that is initialized from scratch. We use caffe \cite{caffe} to finetune train the GoogLeNet.  The blob learning rate coefficients of the final inner product layer are 10 times higher than the learning rate coefficients from the layers initialized from GoogLeNet.  The base learning rate. is set to  $0.001$,   gamma to $0.1$, momentum $0.9$, and weight decay $0.0005$.  We use a training batch size of 128 for each iteration for a total of 25,000 iterations.  A softmax classifier is attached to the final layer for classification.
+            
+\subsection{Crack block detection}
+            For each frame in a video, the frame is divided into 70 overlapping 224x224 blocks. Adjacent blocks contain about 75\% overlap in area. The ImageNet mean RGB is subtracted from each block and then it is run through the CNN and classified as either crack or not.
+
+\subsection{Crack detection through spatial temporal grouping}
+            Sometimes weld, grind, and scratches can be detected sporadically throughout the video and this can sometimes bring false alarms at the frame level. Crack blocks appear sequentially in time, and their movement through time follows the movement of the camera.  Grouping the detections temporally helps filter out the noisy sporadic false detections and helps identify a series of detected crack frames as single crack instance.
+All the crack block detections in a video, are inserted into a 3D point cloud from their (x,y, t). X, and Y, are the coordinates of the center of the block in the frame, and t is the frame number that they appear in.   From the 3D point cloud, RANSAC plane fitting is run iteratively to find planes.  For each plane found, the inlier points of the found plane are removed, and RANSAC plane fitting is run again. This is done until no more planes are found.  For the settings for RANSAC plane fitting, a reference vector of [0, 0, 1] is used. It points approximately parallel to normal vectors of the desired planes with max angle offset between the two vectors of 15 degrees. Each inlier point of the plane has a maximum distance from the surface of the plane of about 500.  
+
+\subsection{Classification of found planes}
+         For each found plane,  2 features are extracted. The first feature is the length in frames that the points in the plane occupy.  The second feature is the percentage of frames in the interval that are detected as crack. Detections from the training set are used to find the mean and standard deviation(sigma) for each of these two features.  The threshold for each feature is computed as the mean - 2sigma.    A plane  where these 2 values are both greater than the thresholds, are kept as classified crack planes.  
