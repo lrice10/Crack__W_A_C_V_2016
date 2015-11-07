@@ -1,0 +1,58 @@
+\section{Experimental Evaluation}
+    \subsection{Dataset}
+        We have collected 17 videos of the synthetically generated cracks of stainless steel plates containing laser machined flaws(cracks) (Figure 6.) The videos are captured by Ahlberg MegaRad L Camera at a distance which was approximately 4-6 inches away from the plates. There are 45 unique cracks from all the videos. Cracks can vary in length, thickness, and distinguishability. The videos are about 10,000 frames long for each video. The videos have various weldings, scratches, and grind marks.
+
+    \subsection{Evaluation metric}
+        \paragraph{Leave one out evaluation}
+            For each video, the training set for the CNN and plane classification, is from the other 16 videos.
+    
+        \paragraph{Frame-level}
+            For each video, frames are marked as crack if any part of a crack appears in the frame. When evaluating the cracks,  crack groups are created from frames that are consecutively labeled as cracks.  In each crack group, the first 25\% of the frames of the crack group and the last 25\% of the crack group are not used in the frame based evaluation and are labeled as “don’t care”. This is because at these times only a small part of the crack is visible, and the crack usually can not be clearly distinguished.
+                TP if any block in the frame is detected as crack and the ground truth is labeled crack.
+                FP if any block in the frame is detected as crack and the ground truth is labeled non-crack.
+                TN if no blocks in the frame are detected as crack and the ground truth is labeled non-crack.
+                FN if no blocks in the frame are detected as crack and the ground truth is labeled crack.
+    
+            We use TPR, FPR, and F1-Score to evaluate performance at the frame level. 
+            TPrate = TPs / (TPs + FNs); FPrate = FPs / (FPs + TNs);
+            F1score =(2 * TPs) / (2 * TPs + FPs + FNs);
+    
+    
+        %% ------------------------------------------------
+        %                 Results Table
+        %% ------------------------------------------------
+        \begin{table}
+        
+            \begin{center}
+            
+                \begin{tabular}{ l c c c| }\\
+                    \hline
+                        \multicolumn{1}{|l||}{Method} & TPR & FPR & F1\\
+                    \hline
+                        \multicolumn{1}{|p{3cm}||}{Tracklet Matching} & 0.00 & 0.00 & 0.00 \\
+                    \hline
+                        \multicolumn{1}{|p{3cm}||}{Tracklet Matching} & 0.00 & 0.00 & 0.00 \\
+                    \hline
+                        \multicolumn{1}{|l||}{Tracklet Matching} & 0.00 & 0.00 & 0.00 \\
+                    \hline
+                \end{tabular}
+                
+                \caption{Results comparison}
+                \label{tab:Results}
+            
+            \end{center}
+            
+        \end{table}
+        
+        
+        \paragraph{Crack-level}
+            We also evaluate at the crack camera pass level. We use an overlap strategy based on \\cite{HooverGoldgofpaper}. GT Crack groups are created from frames that are consecutively labeled as cracks. GT non-crack groups are created from consecutive frames labeled as non-cracks.  For each crack detected plane interval and GT Crack Group combination, the number of frames of overlap is computed and then the $overlap-percentage = \min( percent-frame-Overlap-with-GT, percent-frame-Overlap-with-detection)$ is computed.   Each GT Crack group is matched to the crack detection group with the highest overlap-percentage if the $overlap-percentage >= 0.1$. This is then counted as a TP.  Each GT Crack Group can only be matched to one crack detection group. 
+            FNs are the number GT Crack groups that do not get matched to a crack group detection. 
+            FPs are the number of crack group detections that do not get matched to a GT Crack group.
+            TNs are the number GT non-crack groups that get matched to non-crack groups from detection using similar overlap criteria as TPs. 
+
+    \subsection{Accuracy}
+        TPR, FPR, F-score (include 4” dataset results only)
+        
+        
+        

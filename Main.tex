@@ -18,7 +18,12 @@
 \usepackage{color}
 \usepackage{tabulary}
 \usepackage{caption} 
+\usepackage[export]{adjustbox}
 \usepackage[pagebackref=true,breaklinks=true,colorlinks,bookmarks=false]{hyperref}
+
+% Remove these prior to submit:
+\usepackage{marginnote}
+\usepackage{geometry}
 
 \newcommand\comment[1]{\textcolor{red}{{\tt #1}}}
 \newcommand\vect[1]{\boldsymbol{#1}}
@@ -32,10 +37,10 @@
 \ifwacvfinal\pagestyle{empty}\fi
 
 \begin{document}
-\title{WACV 16 - Crack Detection Paper}
+\title{(?) Automatic Crack Detection in Nuclear Power Plants with Temporal-Spacial Grouping}
 
 \author{
-Authors$^\ast$
+Authors$^\ast$ \\
 \begin{tabular}{c c}
 $^\ast$~Univ. of North Carolina at Charlotte \\
 Charlotte, NC 28223\\
@@ -47,13 +52,13 @@ Charlotte, NC 28223\\
 [Abstract here]
 \end{abstract}
 
-\input{section/Introduction}
-\input{section/Method}
-\input{section/Results}
-\input{section/Discussion}
+\input{section/0-Introduction}
+\input{section/1-Method}
+\input{section/2-Evaluation}
+\input{section/3-Conclusion}
 
 \bibliographystyle{styles/ieee}
-\bibliography{references}
+\bibliography{section/z-References}
 
 \end{document}
 
