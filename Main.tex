@@ -1,65 +1,196 @@
-\documentclass[10pt,twocolumn,letterpaper]{article}
 
-\usepackage{styles/wacv}
-\usepackage[utf8]{inputenc}
-\usepackage{times}
-\usepackage{epsfig}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{amssymb}
 
-\usepackage{natbib}
-\usepackage{graphicx}
 
-\usepackage{epstopdf}
-\usepackage{array}
-\usepackage{multirow}
-\usepackage{rotating}
-\usepackage{color}
-\usepackage{tabulary}
-\usepackage{caption} 
-\usepackage[export]{adjustbox}
-\usepackage[pagebackref=true,breaklinks=true,colorlinks,bookmarks=false]{hyperref}
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
+%                   GLOBAL VARIABLES                      %
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
+    %%% ENABLES/DISABLES ANNOTATIONS/MESSAGES:
+    \newif\ifdraft
+    \drafttrue
+    % \draftfalse
+    
+    %%% ENABLES/DISABLES WACV FINAL\SUBMISSION FORMAT:
+    \newif\iffinal
+    % \finaltrue
+    \finalfalse
+    
+    %%% TITLE OF THE PAPER:
+    \def \paperTitle {(?) Automatic Crack Detection in Nuclear Power Plants with Temporal-Spacial Grouping}
+    
+    %%% ID OF THE PAPER SUBMISSION:
+    \def \submissionID {XXX} % *** Enter the wacv Paper ID here
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%    
+    
+    
+    
+    
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
+%               DOCUMENT CONFIG & PACKAGES                %
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
+    \documentclass[10pt,twocolumn,letterpaper]{article}
+    
+    \usepackage{styles/wacv}
+    \usepackage[utf8]{inputenc}
+    \usepackage{times}
+    \usepackage{epsfig}
+    \usepackage{graphicx}
+    \usepackage{amsmath}
+    \usepackage{amssymb}
+    
+    \usepackage{natbib}
+    \usepackage{graphicx}
+    
+    \usepackage{epstopdf}
+    \usepackage{array}
+    \usepackage{multirow}
+    \usepackage{rotating}
+    \usepackage{color}
+    \usepackage{tabulary}
+    \usepackage{caption} 
+    \usepackage[export]{adjustbox}
+    \usepackage[pagebackref=true,breaklinks=true,colorlinks,bookmarks=false]{hyperref}
+    
+    % Use more than one optional parameter in a new commands:
+    \usepackage{xargs}                      
+    % Todo's package:
+    \usepackage[shadow, textwidth=3.1cm, textsize=small]{todonotes}
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
 
-% Remove these prior to submit:
-\usepackage{marginnote}
-\usepackage{geometry}
 
-\newcommand\comment[1]{\textcolor{red}{{\tt #1}}}
-\newcommand\vect[1]{\boldsymbol{#1}}
-\newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
 
-\wacvfinalcopy % *** Uncomment this line for the final submission
 
-\def\wacvPaperID{121} % *** Enter the wacv Paper ID here
-\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
+%                     MACROS START:                       %
+%                                                         %
+%        These are personal macros and some are           %
+%       some are disabled if not a draft version          %
+%                                                         %
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
+    %_______________________________
+    %_______________________________
+    %% ::VECT SHORTHAND MACRO::
+    %-------------------------------
+    \newcommand\vect[1]{\boldsymbol{#1}}
 
-\ifwacvfinal\pagestyle{empty}\fi
 
-\begin{document}
-\title{(?) Automatic Crack Detection in Nuclear Power Plants with Temporal-Spacial Grouping}
+    % Macros that are disabled/hidden if not a draft version:
+    \ifdraft
+        %_______________________________
+        %_______________________________
+        %% ::COMMENTS MACROs::
+        %-------------------------------
+        % [Comments on the actual paper's text (Makes the text red)]
+        %-------------------------------------------------------------------
+            \newcommand\comment[1]{\textcolor{red}{{\tt #1}}}
+        
+        %_______________________________
+        %_______________________________
+        % ::MARGIN & INLINE MESSAGES::
+        %-------------------------------
+        % There are 5 (4 visible) types of messages:
+        %   1. "\noteError{...}"    --->  Red Message Bubble
+        %   2. "\noteChange{...}"   --->  Purple Message Bubble
+        %   3. "\noteInfo{...}"     --->  Light Blue Message Bubble
+        %   4. "\noteImprove{...}"  --->  Orange Message Bubble
+        %   5. "\noteHidden{...}"   --->  Note that will not show in the PDF
+        %-------------------------------------------------------------------
+            %% Define message types:
+            %%-----------------------
+            % NOTE ERROR:
+            \newcommandx{\noteError}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+            
+            % NOTE CHANGE:
+            \newcommandx{\noteChange}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+            
+            % NOTE INFO:
+            \definecolor{cyann}{rgb}{0,0.8,0.8}
+            \newcommandx{\noteInfo}[2][1=]{\todo[linecolor=cyann,backgroundcolor=cyann!25,bordercolor=cyann,#1]{#2}}
+            
+            % NOTE IMPROVE:
+            \definecolor{orange}{rgb}{1,0.5,0}
+            \newcommandx{\noteImprove}[2][1=]{\todo[fancyline,linecolor=orange,backgroundcolor=orange!25,bordercolor=orange,#1]{#2}}
+            
+            % NOTE HIDDEN:
+            \newcommandx{\noteHidden}[2][1=]{\todo[disable,#1]{#2}}
+            
+        \setlength{\marginparwidth}{2.8cm}
+        \makeatletter
+        \tikzstyle{notestyleraw}=[
+          draw=\@todonotes@currentbordercolor,
+          fill=\@todonotes@currentbackgroundcolor,
+          line width=0.5pt,
+          text width=\@todonotes@textwidth-2.8ex-1pt,
+          inner sep=1.0ex,
+          rounded corners=4pt
+        ]
+        \makeatother
+        % adjust space for notes
+        \usepackage{geometry}
+            \geometry{left=6.0cm, right = 0.0cm, marginparwidth=2.9cm}    
+        
+    \else
+        % Disable all annotations and display errors for general comments:
+        \newcommand\comment[1]{\errmessage{This is not a draft!! Remove all comments!!}}
+        \newcommandx{\noteError}[2][1=]{\todo[disable,#1]{#2}}
+        \newcommandx{\noteChange}[2][1=]{\todo[disable,#1]{#2}}
+        \newcommandx{\noteInfo}[2][1=]{\todo[disable,#1]{#2}}
+        \newcommandx{\noteImprove}[2][1=]{\todo[disable,#1]{#2}}
+        \newcommandx{\noteHidden}[2][1=]{\todo[disable,#1]{#2}}
+    \fi
+        
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
 
-\author{
-Authors$^\ast$ \\
-\begin{tabular}{c c}
-$^\ast$~Univ. of North Carolina at Charlotte \\
-Charlotte, NC 28223\\
-\end{tabular}\\
-{\tt \small author@uncc.edu  } }
-\maketitle
 
-\begin{abstract}
-[Abstract here]
-\end{abstract}
 
-\input{section/0-Introduction}
-\input{section/1-Method}
-\input{section/2-Evaluation}
-\input{section/3-Conclusion}
 
-\bibliographystyle{styles/ieee}
-\bibliography{section/z-References}
 
-\end{document}
-
-\documentclass{article}
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
+%                     DOCUMENT START:                     %
+%                                                         %
+%        This is the actual text of the document.         %
+%                                                         %
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
+%% *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*%
+    \iffinal
+        \wacvfinalcopy
+    \fi
+    
+    \def\wacvPaperID{\submissionID} 
+    \def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+    
+    \ifwacvfinal\pagestyle{empty}\fi
+    
+    \begin{document}
+    
+        \ifdraft
+            % Increase Paper size for margin notes..
+            \pdfpageheight 14in 
+            \pdfpagewidth 11in
+        \fi
+    
+        \title{\paperTitle}
+        
+        \author{Authors$^\ast$ \\
+            \begin{tabular}{c c} $^\ast$~Univ. of North Carolina at Charlotte\\Charlotte, NC 28223\\\end{tabular}\\
+            {\tt \small author@uncc.edu  } 
+        }
+        
+        \maketitle
+        
+        \begin{abstract}
+            \input{section/0-Abstract}
+        \end{abstract}
+        \input{section/1-Introduction}
+        \input{section/2-Method}
+        \input{section/3-Evaluation}
+        \input{section/4-Conclusion}
+        
+        \bibliographystyle{styles/ieee}
+        \bibliography{section/z-References}
+    
+    \end{document}
+    
+    \documentclass{article}
