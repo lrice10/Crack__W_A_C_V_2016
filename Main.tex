@@ -36,6 +36,7 @@
     \usepackage{graphicx}
     \usepackage{amsmath}
     \usepackage{amssymb}
+    \usepackage{subfig}
     
     \usepackage{natbib}
     \usepackage{graphicx}
@@ -190,6 +191,10 @@
         
         \bibliographystyle{styles/ieee}
         \bibliography{section/z-References}
+    
+        \ifdraft
+            \input{section/zz-Scratch}
+        \fi
     
     \end{document}
     

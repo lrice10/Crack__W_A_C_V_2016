@@ -1,0 +1,39 @@
+\section{Scratch/DraftNotes}
+    Not part of the actual document::\bigskip\bigskip
+    
+    % \noteError[inline]{[T1]-edits from hard copy}
+    \noteError[inline]{[T2]-minor figure adjustments}
+    \noteError[inline]{[T3]-abs}
+    \noteError[inline]{[T4]-accuracy}
+    \noteError[inline]{[T5]-conclusion}
+    \noteError[inline]{[T6]-method clean notation}
+    \noteError[inline]{[T7]-Fix missing refs}\bigskip\bigskip
+    
+    \noteChange[inline]{[Lance$>$Steve:] Thanks for the information Steve. :)}\bigskip
+    
+    \noteImprove[inline]{[Lance$>$Steve:] Just +90, or +/- 90?}
+    \noteInfo[inline]{Just 90 degrees.}\bigskip
+    
+    \noteImprove[inline]{[Lance$>$Steve:] I'm not sure what "morph response" means.} 
+    \noteInfo[inline]{[Steve$>$Lance:] Morph response is the output image after applying morphological operations on image. Section 3.1.1 of \cite{jahanshahi2013} explains it better }\bigskip
+    
+    \noteImprove[inline]{[Lance$>$Steve:] How is this probability calculated? Weighted Sampling?} \noteInfo[inline]{[Steve$>$Lance:] Yes it is weighted sampling. A pixel with higher morph response has greater probability of being randomly selected. }\bigskip
+    
+    \noteImprove[inline]{[Lance$>$Steve:] The ImageNet mean image or the mean image calculated by ImageNet from the supplied patch examples?} 
+    \noteInfo[inline]{[Steve$>$Lance:] It is just one color. It is one image with every pixel [104 117 123]. I think that this is the mean color of all ImageNet Pixels. I think they do this in other CNN papers \cite{farfade2015}. It is an option in caffe instead of using mean image.}\bigskip
+    
+    \noteImprove[inline]{[Lance$>$Steve:] Why this particular size? ImageNet constraints and/or choice? Is it so that you get 70 patches?} 
+    \noteInfo[inline]{[Steve$>$Lance:] I keep in 224x224 because this is the size of original GoogNet input, so that when patch does not need to be resized.  The overlap just adds more blocks to test. I started with about 24 which had about 50 percent overlap for adjacent blocks. I went to 75percent to add more blocks, which was about 70 blocks per image. I added more blocks for plane fitting. More points in plane fitting seemed to help. I guess it is just a choice. I figure keeping the patch size the same as the originally trained GoogleNet to preserve scale and aspect ratio.}\bigskip
+    
+    \noteImprove[inline]{[Lance$>$Steve:] What is the stopping condition?} 
+    \noteInfo[inline]{[Steve$>$Lance:] The stopping condition is when pcfitplane returns no more inlier pts. I assume this to mean it couldnt find any more planes.}\bigskip
+    
+    \noteImprove[inline]{[Lance$>$Steve:] Could a point belong to multiple plans? If so, is there a chance of none of the plans satisfying the thresholds because of the order in which the points were removed?} \noteInfo[inline]{[Steve$>$Lance:] I don't believe a point can belong to multiple fitted planes because once it is matched to a plane, it is removed as input in the next plane fitting iteration}\bigskip
+    
+    \noteImprove[inline]{[Lance$>$Steve:] Binary output, or real value that is thresholded?} \noteInfo[inline]{[Steve$>$Lance:] The CNN softmax layer gives a probability for crack and non-crack. The one with the higher value is the classification  }\bigskip
+    
+    \noteImprove[inline]{[Lance$>$Steve:] Any rational that could be supplied?} 
+    \noteInfo[inline]{[Steve$>$Lance:] Assume it is gaussian and that mean -2sigma means 95percent confident that the features will fall in those ranges. }\bigskip
+    
+    \noteImprove[inline]{are all video condition the same?}
+    \noteInfo[inline]{They are all similar in that they are 4 inch from camera. The conditions are different in that some videos predominatly have weld and there can be different types of weld. There can also be white scratches, grind, gray scratches. Some videos have more of each kind than others. Also there is just plain surface texture. Also the videos have different length cracks. The cracks can also be easy to see or not easy to see depending on lighting and thickness}
